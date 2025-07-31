@@ -5,11 +5,14 @@
  */
 package com.stormdev.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.stormdev.model.GeneroLivro;
 import com.stormdev.model.Livro;
 import com.stormdev.repository.LivroRepository;
 
@@ -38,5 +41,16 @@ public class LivroService {
 	
 	public void deletar(Livro livro) {
 		repository.delete(livro);
+	}
+	
+	//isbn, titulo, nome autor, genero, ano de publicação
+	public List<Livro> pesquisa(
+			String isbn,
+			String titulo,
+			String nomeAutor,
+			GeneroLivro genero,
+			Integer anoPublicacao){
+		Specification<Livro> specs = null;
+		return repository.findAll(specs);
 	}
 }
