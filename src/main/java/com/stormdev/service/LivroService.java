@@ -5,6 +5,9 @@
  */
 package com.stormdev.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.stormdev.model.Livro;
@@ -27,5 +30,13 @@ public class LivroService {
 	public Livro salvar(Livro livro) {
 		// TODO Auto-generated method stub
 		return repository.save(livro);
+	}
+	
+	public Optional<Livro> obterPorId(UUID id){
+		return repository.findById(id);
+	}
+	
+	public void deletar(Livro livro) {
+		repository.delete(livro);
 	}
 }
