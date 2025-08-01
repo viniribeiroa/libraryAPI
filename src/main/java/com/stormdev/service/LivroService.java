@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.stormdev.model.GeneroLivro;
 import com.stormdev.model.Livro;
 import com.stormdev.repository.LivroRepository;
+import com.stormdev.repository.specs.LivroSpecs;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +32,7 @@ public class LivroService {
 	 * @param livro
 	 */
 	public Livro salvar(Livro livro) {
-		// TODO Auto-generated method stub
+		
 		return repository.save(livro);
 	}
 	
@@ -50,7 +51,16 @@ public class LivroService {
 			String nomeAutor,
 			GeneroLivro genero,
 			Integer anoPublicacao){
-		Specification<Livro> specs = null;
+		Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction());
+		
+		if (isbn!= null) {
+			specs = specs.and(LivroSpecs.isbnEqual(isbn));
+		}if (titulo != null) {
+			specs= specs.and(LivroSpecs.tituloLike(titulo));
+		}if (genero != null) {
+			specs = specs.and(LivroSpecs.generoEqual(genero));
+		}
+		
 		return repository.findAll(specs);
 	}
 }
