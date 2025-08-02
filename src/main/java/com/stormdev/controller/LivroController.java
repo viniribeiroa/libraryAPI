@@ -5,7 +5,9 @@
  */
 package com.stormdev.controller;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stormdev.controller.dto.CadastroLivroDTO;
 import com.stormdev.controller.dto.ResultadoPesquisaLivroDTO;
 import com.stormdev.controller.mappers.LivroMapper;
+import com.stormdev.model.GeneroLivro;
 import com.stormdev.model.Livro;
 import com.stormdev.service.LivroService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 
 
 /**
@@ -62,6 +67,26 @@ public class LivroController implements GenericController{
 					service.deletar(livro);
 					return ResponseEntity.noContent().build();
 				}).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<ResultadoPesquisaLivroDTO>> pesquisa(
+			@RequestParam(value = "isbn", required = false)
+			String isbn, 
+			@RequestParam(value = "titulo", required = false)
+			String titulo,
+			@RequestParam(value = "nome-autor", required = false)
+			String nomeAutor,
+			@RequestParam(value = "genero", required = false)
+			GeneroLivro genero, 
+			@RequestParam(value = "ano-publicacao", required = false)
+			Integer anopublicacao
+			){
+		
+		var resultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anopublicacao);
+		var lista = resultado.stream().map(mapper::toDTO).collect(Collectors.toList());
+		
+		return ResponseEntity.ok(lista);
 	}
 
 }
