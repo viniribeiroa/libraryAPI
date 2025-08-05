@@ -16,6 +16,7 @@ import com.stormdev.model.GeneroLivro;
 import com.stormdev.model.Livro;
 import com.stormdev.repository.LivroRepository;
 import com.stormdev.repository.specs.LivroSpecs;
+import com.stormdev.validador.LivroValidator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,13 +27,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LivroService {
 
-	private  final LivroRepository repository;
+	private final LivroRepository repository;
+	private final LivroValidator validator; 
 
 	/**
 	 * @param livro
 	 */
 	public Livro salvar(Livro livro) {
-		
+		validator.validar(livro);
 		return repository.save(livro);
 	}
 	
@@ -75,6 +77,7 @@ public class LivroService {
 		if (livro.getId() == null) {
 			throw new IllegalArgumentException("Para atualizar, é necessario que o livro esteja salvo na base.");
 		}
+		validator.validar(livro);
 		repository.save(livro);
 	}
 }
