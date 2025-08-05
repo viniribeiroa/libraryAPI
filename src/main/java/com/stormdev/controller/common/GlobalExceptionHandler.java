@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.stormdev.controller.dto.ErroResposta;
 import com.stormdev.controller.dto.ErrorCampo;
+import com.stormdev.exceptions.CampoInvalidoException;
 import com.stormdev.exceptions.OperacaoNaoPermitidaException;
 import com.stormdev.exceptions.RegistroDuplicadoException;
 
@@ -54,6 +55,15 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErroResposta handleOperacaoNaoPermitidaException(OperacaoNaoPermitidaException e) {
 		return ErroResposta.respostaPadrao(e.getMessage());
+	}
+	
+	@ExceptionHandler(CampoInvalidoException.class)
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+	public ErroResposta handleCampoInvalidoException(CampoInvalidoException e) {
+		return  new ErroResposta(
+				HttpStatus.UNPROCESSABLE_ENTITY.value(),
+				"Erro de validacao.",
+				List.of(new ErrorCampo(e.getCampo(), e.getMessage())));
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
