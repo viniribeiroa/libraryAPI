@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +50,14 @@ public class LivroService {
 	}
 	
 	//isbn, titulo, nome autor, genero, ano de publicação
-	public List<Livro> pesquisa(
+	public Page<Livro> pesquisa(
 			String isbn,
 			String titulo,
 			String nomeAutor,
 			GeneroLivro genero,
-			Integer anoPublicacao){
+			Integer anoPublicacao,
+			Integer pagina,
+			Integer tamanhoPagina){
 		Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction());
 		
 		if (isbn!= null) {
@@ -67,7 +72,9 @@ public class LivroService {
 			specs = specs.and(LivroSpecs.nomeAutorLike(nomeAutor));
 		}
 		
-		return repository.findAll(specs);
+		Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
+		
+		return repository.findAll(specs, pageRequest);
 	}
 
 	/**
