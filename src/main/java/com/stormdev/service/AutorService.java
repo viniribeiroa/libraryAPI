@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 
 import com.stormdev.exceptions.OperacaoNaoPermitidaException;
 import com.stormdev.model.Autor;
+import com.stormdev.model.Usuario;
 import com.stormdev.repository.AutorRepository;
 import com.stormdev.repository.LivroRepository;
+import com.stormdev.security.SecurityService;
 import com.stormdev.validador.AutorValidador;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,7 @@ public class AutorService {
 	private final AutorRepository autorRepository;
 	private final AutorValidador validador;
 	private final LivroRepository livroRepository;
-	
+	private final SecurityService securityService;
 	/**public AutorService(AutorRepository autorRepository, AutorValidador validador, LivroRepository livroRepository) {
 		this.autorRepository = autorRepository;
 		this.validador = validador;
@@ -43,6 +45,8 @@ public class AutorService {
 
 	public Autor Salvar(Autor autor) {
 		validador.validar(autor);
+		Usuario usuario = securityService.obterUsuarioLogado();
+		autor.setUsuario(usuario);
 		return autorRepository.save(autor);
 	}
 	

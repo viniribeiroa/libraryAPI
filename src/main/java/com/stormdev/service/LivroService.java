@@ -5,7 +5,6 @@
  */
 package com.stormdev.service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,8 +16,10 @@ import org.springframework.stereotype.Service;
 
 import com.stormdev.model.GeneroLivro;
 import com.stormdev.model.Livro;
+import com.stormdev.model.Usuario;
 import com.stormdev.repository.LivroRepository;
 import com.stormdev.repository.specs.LivroSpecs;
+import com.stormdev.security.SecurityService;
 import com.stormdev.validador.LivroValidator;
 
 import lombok.RequiredArgsConstructor;
@@ -32,12 +33,15 @@ public class LivroService {
 
 	private final LivroRepository repository;
 	private final LivroValidator validator; 
+	private final SecurityService securityService;
 
 	/**
 	 * @param livro
 	 */
 	public Livro salvar(Livro livro) {
 		validator.validar(livro);
+		Usuario usuario = securityService.obterUsuarioLogado();
+		livro.setUsuario(usuario);
 		return repository.save(livro);
 	}
 	
