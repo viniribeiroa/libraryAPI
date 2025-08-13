@@ -7,7 +7,6 @@ package com.stormdev.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.stormdev.model.Usuario;
@@ -27,8 +26,10 @@ public class SecurityService {
 	public Usuario obterUsuarioLogado() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		String login = userDetails.getUsername();
-		return service.obterPorLogin(login);
+		if (authentication instanceof CustomAuthetication customAuth) {
+			return customAuth.getUsuario();
+		}
+		
+		return null;
 	}
 }
