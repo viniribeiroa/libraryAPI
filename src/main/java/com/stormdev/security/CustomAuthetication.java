@@ -37,7 +37,8 @@ public class CustomAuthetication implements Authentication{
 		// TODO Auto-generated method stub
 		return this.usuario
 				.getRoles()
-				.stream().map(role -> new SimpleGrantedAuthority(role))
+				.stream()
+				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 	}
 
