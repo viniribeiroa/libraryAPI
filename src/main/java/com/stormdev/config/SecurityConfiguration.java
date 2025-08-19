@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.stormdev.security.CustomUserDetailsService;
+import com.stormdev.security.LoginSocialSuccessHandler;
 import com.stormdev.service.UsuarioService;
 
 /**
@@ -31,7 +32,7 @@ import com.stormdev.service.UsuarioService;
 public class SecurityConfiguration {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSuccessHandler successHandler) throws Exception{
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
 //				.formLogin(configurer ->{
@@ -48,7 +49,9 @@ public class SecurityConfiguration {
 					//authorize.requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USER", "ADMIN");
 					authorize.anyRequest().authenticated();
 				})
-				.oauth2Login(Customizer.withDefaults())
+				.oauth2Login(oauth2 -> {
+					oauth2.successHandler(successHandler);
+				})
 				.build();
 	}
 	
