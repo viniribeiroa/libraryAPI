@@ -16,6 +16,7 @@ import com.stormdev.controller.dto.UsuarioDTO;
 import com.stormdev.controller.mappers.UsuarioMapper;
 import com.stormdev.service.UsuarioService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -31,7 +32,7 @@ public class UsuarioController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void salvar(@RequestBody UsuarioDTO dto) {
+	public void salvar(@RequestBody @Valid UsuarioDTO dto) {
 		var usuario = mapper.toEntity(dto);
 		service.salvar(usuario);
 	}
