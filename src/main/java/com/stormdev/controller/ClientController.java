@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  * 
  */
 @RestController
-@RequestMapping("/cleints")
+@RequestMapping("/clients")
 @RequiredArgsConstructor
 public class ClientController {
 
@@ -30,7 +30,7 @@ public class ClientController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("hashole('GERENTE')")
+	@PreAuthorize("hasRole('GERENTE')")
 	public void salvar(@RequestBody Client client){
 		service.salvar(client);
 	}

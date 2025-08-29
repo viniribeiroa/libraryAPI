@@ -17,6 +17,6 @@ import com.stormdev.model.Client;
 public interface ClientRepository extends JpaRepository<Client, UUID>{
 
 	
-	Client findById(String clientId);
+	Client findByClientId(String clientId);
 
 }
