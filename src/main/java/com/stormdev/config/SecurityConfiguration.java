@@ -56,30 +56,30 @@ public class SecurityConfiguration {
 				.build();
 	}
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(10);
-	}
-	
 //	@Bean
-	public UserDetailsService userDetailsService(UsuarioService usuarioService) {
-		
-		
-//		UserDetails user1 = User.builder()
-//				.username("usuario")
-//				.password(encoder.encode("1234"))
-//				.roles("USER")
-//				.build();
+//	public PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder(10);
+//	}
+//	
+////	@Bean
+//	public UserDetailsService userDetailsService(UsuarioService usuarioService) {
 //		
-//		UserDetails user2 = User.builder()
-//				.username("admin")
-//				.password(encoder.encode("1234"))
-//				.roles("ADMIN")
-//				.build();
 //		
-//		return new InMemoryUserDetailsManager(user1, user2);
-		return new CustomUserDetailsService(usuarioService);
-	}
+////		UserDetails user1 = User.builder()
+////				.username("usuario")
+////				.password(encoder.encode("1234"))
+////				.roles("USER")
+////				.build();
+////		
+////		UserDetails user2 = User.builder()
+////				.username("admin")
+////				.password(encoder.encode("1234"))
+////				.roles("ADMIN")
+////				.build();
+////		
+////		return new InMemoryUserDetailsManager(user1, user2);
+//		return new CustomUserDetailsService(usuarioService);
+//	}
 	
 	@Bean
 	public GrantedAuthorityDefaults grantedAuthorityDefaults() {
