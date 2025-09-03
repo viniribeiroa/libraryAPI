@@ -66,7 +66,11 @@ public class AuthorizationServerConfiguration {
 	public TokenSettings tokenSettings() {
 		return TokenSettings.builder()
 				.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
+				
+				//Token utilizado nas requisições
 				.accessTokenTimeToLive(Duration.ofMinutes(60))
+				//token para renovar o access_Token
+				.refreshTokenTimeToLive(Duration.ofMinutes(90))
 				.build();
 	}
 	
