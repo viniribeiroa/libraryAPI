@@ -14,16 +14,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.stormdev.security.CustomUserDetailsService;
+import com.stormdev.security.JwtCustomAuthenticationFilter;
 import com.stormdev.security.LoginSocialSuccessHandler;
-import com.stormdev.service.UsuarioService;
 
 /**
  * 
@@ -34,7 +31,10 @@ import com.stormdev.service.UsuarioService;
 public class SecurityConfiguration {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSuccessHandler successHandler) throws Exception{
+	public SecurityFilterChain securityFilterChain(
+			HttpSecurity http, 
+			LoginSocialSuccessHandler successHandler,
+			JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception{
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
 				.formLogin(configurer ->{
@@ -57,6 +57,7 @@ public class SecurityConfiguration {
 					.successHandler(successHandler);
 				})
 				.oauth2ResourceServer(oauth2RS -> oauth2RS.jwt(Customizer.withDefaults()))
+				.addFilterAfter(jwtCustomAuthenticationFilter, BearerTokenAuthenticationFilter.class)
 				.build();
 	}
 	
