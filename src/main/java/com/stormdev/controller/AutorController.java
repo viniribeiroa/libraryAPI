@@ -34,6 +34,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -42,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/autores")
 @RequiredArgsConstructor
 @Tag(name = "Autores")
+@Slf4j
 public class AutorController implements GenericController {
 
 	private final AutorService service;
@@ -118,6 +120,9 @@ public class AutorController implements GenericController {
 	})
 	public ResponseEntity<List<AutorDTO>> pesquisar(@RequestParam(value = "nome", required = false) String nome,
 			@RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
+		
+		log.trace("pesquisa autores");
+		
 		List<Autor> resultado = service.pesquisaByExample(nome, nacionalidade);
 		List<AutorDTO> lista = resultado.stream().map(mapper::toDTO).collect(Collectors.toList());
 
