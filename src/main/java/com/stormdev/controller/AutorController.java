@@ -65,6 +65,7 @@ public class AutorController implements GenericController {
 	})
 	public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO dto) {
 
+		log.info("Cadastrando novo autor: {}", dto.nome());
 		
 		Autor autor = mapper.toEntity(dto);
 		
@@ -100,6 +101,8 @@ public class AutorController implements GenericController {
 	})
 	public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
 
+		log.info("deletando autor: {}", id);
+		
 		var idAutor = UUID.fromString(id);
 		Optional<Autor> autorOptional = service.obterPorId(idAutor);
 

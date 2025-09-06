@@ -22,15 +22,20 @@ import com.stormdev.exceptions.CampoInvalidoException;
 import com.stormdev.exceptions.OperacaoNaoPermitidaException;
 import com.stormdev.exceptions.RegistroDuplicadoException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	public ErroResposta handleMethodSArgumentNotValidException(MethodArgumentNotValidException e) {
+		
+		log.error("Error de validação: {}", e.getMessage());
 		List<FieldError> fieldErrors = e.getFieldErrors();
 		
 		List<ErrorCampo> listaErros = fieldErrors
@@ -76,6 +81,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErroResposta handleErrosNaoTratado(RuntimeException e) {
+		
+		log.error("Error inesperado: ", e);
 		return new ErroResposta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocorreu um Erro Inesperado. Entre em contato com o Administrador", List.of());
 	}
 
