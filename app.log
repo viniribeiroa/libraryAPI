@@ -1,1 +1,1 @@
-2025-09-06T23:49:45.149-03:00 DEBUG 9828 --- [libraryapi] [main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2025-09-07T00:02:49.951-03:00 DEBUG 10464 --- [libraryapi-production] [main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
