@@ -13,7 +13,7 @@ import com.stormdev.model.Usuario;
 /**
  * 
  */
-@Mapper(componentModel = "spring") 
+@Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
 	Usuario toEntity(UsuarioDTO dto);
