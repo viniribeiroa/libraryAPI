@@ -15,10 +15,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 
  */
 @Configuration
+@Slf4j
 public class DatabaseConfiguration {
 	
 	@Value("${spring.datasource.url}")
@@ -42,6 +45,9 @@ public class DatabaseConfiguration {
 	
 	//@Bean
 	public DataSource hikariDataSource() {
+		
+		log.info("iniciando conexão com o banco na url: {}", url);
+		
 		HikariConfig config = new HikariConfig();
 		config.setJdbcUrl(url);
 		config.setUsername(username);
