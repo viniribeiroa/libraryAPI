@@ -45,3 +45,17 @@ CREATE TABLE client(
 	redirect_uri varchar(200) not null,
 	scope varchar(50)
 );
+
+--adicionar usuario--
+insert into usuario
+(id, login, senha, email, roles)
+values
+(uuid_generate_v4(), 'gerente', '$2a$12$flP8MLYfEDDsA.YtthY2/.b7Zm2.SBOLtZkOmIob7MWrXe5ewYYMa', 'gerente@gmail.com', '{GERENTE}')
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+--adicionar cliente--
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+(uuid_generate_v4(), 'client-production', '$2a$12$daBuyl8VdOFD5672mfpr3eMzp9r.z/YNlK91fUDDcgOKVRqyoSO56', 'http://localhost:8080/authorized', 'GERENTE')
