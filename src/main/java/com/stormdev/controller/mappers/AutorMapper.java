@@ -13,7 +13,7 @@ import com.stormdev.model.Autor;
 /**
  * 
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring") 
 public interface AutorMapper {
 
 	Autor toEntity(AutorDTO dto);

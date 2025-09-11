@@ -7,3 +7,5 @@ netstst -aof | findstr 5432
 
 criar a network
 doker create network library-network
+
+docker run --name library-production -e DATASOURCE_URL=jdbc:postgresql://librarydb-prod:5432/library -e DATASOURCE_USERNAME=postgresprod -e DATASOURCE_PASSWORD=postgresprod --network library-network -d -p 8080:8080 -p 9090:9090 vinicius/libraryapi
